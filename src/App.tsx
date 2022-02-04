@@ -1,4 +1,3 @@
-import "./styles.css";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { useGetPostsQuery, useGetPostByIdQuery } from "./services/posts";
