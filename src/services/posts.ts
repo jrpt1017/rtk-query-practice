@@ -19,7 +19,7 @@ export const postsApi = createApi({
     getPostById: builder.query<IPost, number | null>({
       query: (id) => `posts/${id}`
     }),
-    addPost: builder.mutation<void, IPost>({
+    addPost: builder.mutation<void, Partial<IPost>>({
       query: post => ({
         url: '/posts',
         method: 'POST',
@@ -42,4 +42,4 @@ export const postsApi = createApi({
   })
 });
 
-export const { useGetPostsQuery, useGetPostByIdQuery } = postsApi;
+export const { useGetPostsQuery, useGetPostByIdQuery, useAddPostMutation, useUpdatePostMutation, useDeletePostMutation } = postsApi;

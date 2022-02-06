@@ -1,7 +1,6 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import { CardContent, Typography, CardActions, Button } from "@mui/material";
 
 interface IPostCard {
   userId: number;
@@ -17,10 +16,10 @@ const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
     <Card
       sx={{ minWidth: 275 }}
       style={{
-        width: '100%',
-        margin: "auto",
-        marginBottom: 10,
-        backgroundColor: "#F5F5F5"
+        backgroundColor: "#F5F5F5",
+        width: 250,
+        height: 250,
+        margin: 10,
       }}
     >
       <CardContent>
@@ -35,7 +34,11 @@ const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
         </Typography>
         <Typography variant="body2">{body}</Typography>
       </CardContent>
-    </Card>
+      <CardActions>
+        <Button size="small">Update</Button>
+        <Button size="small">Delete</Button>
+      </CardActions>
+    </Card >
   );
 };
 

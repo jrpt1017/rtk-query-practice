@@ -1,16 +1,22 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { TextField, Box, Grid, Button } from "@mui/material";
-import { useGetPostsQuery, useGetPostByIdQuery } from "./services/posts";
+import { useGetPostsQuery, useGetPostByIdQuery, useAddPostMutation } from "./services/posts";
 import PostCard from "./components/PostCard";
 import Header from "./components/Header";
 import LoadingScreen from "./components/LoadingScreen";
 
 export default function App() {
   const [id, setId] = useState<null | number>(null);
+  const [post, setPost] = useState({
+    userId: 1,
+    title: '',
+    body: '',
+  });
 
-  const { data, isLoading, isSuccess, isError, error } = useGetPostsQuery();
+  const { data, isLoading, isSuccess, isError, error, refetch } = useGetPostsQuery();
+  const [addPost] = useAddPostMutation()
   const {
     data: i_data,
     isLoading: i_isLoading,
@@ -52,19 +58,33 @@ export default function App() {
     );
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setPost({
+      ...post,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleOnClick = async () => {
+    await addPost(post);
+    refetch();
+  };
+
   return (
     <div className="App">
       <Header />
       <Grid container style={{ marginTop: 100 }}>
         <Grid item xs={4} style={{ gap: 10, padding: 10 }}>
           <Box display="flex">
-            <TextField id="outlined-basic" label="Title" variant="outlined" fullWidth />
-            <TextField id="outlined-basic" label="Body" variant="outlined" fullWidth />
+            <TextField id="outlined-basic" label="Title" name="title" variant="outlined" fullWidth onChange={(e) => handleInputChange(e)} />
+            <TextField id="outlined-basic" label="Body" name="body" variant="outlined" fullWidth onChange={(e) => handleInputChange(e)} />
           </Box>
-          <Button variant="contained" fullWidth style={{ padding: 10, marginTop: 10 }}>Submit</Button>
+          <Button variant="contained" fullWidth style={{ padding: 10, marginTop: 10 }} onClick={handleOnClick}>Submit</Button>
         </Grid>
         <Grid item xs={8}>
-          <RenderList />
+          <Box display="flex" flexWrap="wrap">
+            <RenderList />
+          </Box>
         </Grid>
       </Grid>
     </div>
