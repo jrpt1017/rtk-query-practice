@@ -10,7 +10,7 @@ interface IPost {
 export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com/"
+    baseUrl: "http://localhost:3000"
   }),
   endpoints: (builder) => ({
     getPosts: builder.query<IPost[], void>({
@@ -18,7 +18,27 @@ export const postsApi = createApi({
     }),
     getPostById: builder.query<IPost, number | null>({
       query: (id) => `posts/${id}`
-    })
+    }),
+    addPost: builder.mutation<void, IPost>({
+      query: post => ({
+        url: '/posts',
+        method: 'POST',
+        body: post,
+      })
+    }),
+    updatePost: builder.mutation<void, IPost>({
+      query: ({ id, ...rest }) => ({
+        url: `/posts/${id}`,
+        method: 'PUT',
+        body: rest,
+      })
+    }),
+    deletePost: builder.mutation<void, IPost>({
+      query: (id) => ({
+        url: `/posts/${id}`,
+        method: 'DELETE',
+      })
+    }),
   })
 });
 
