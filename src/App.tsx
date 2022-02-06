@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import TextField from "@mui/material/TextField";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import { TextField, Box } from "@mui/material";
 import { useGetPostsQuery, useGetPostByIdQuery } from "./services/posts";
 import PostCard from "./components/PostCard";
+import Header from "./components/Header";
 import LoadingScreen from "./components/LoadingScreen";
-import { convertLength } from "@mui/material/styles/cssUtils";
 
 export default function App() {
   const [id, setId] = useState<null | number>(null);
@@ -23,13 +25,6 @@ export default function App() {
   };
 
   const renderLists = () => {
-    console.log(isSuccess, data, id === 0 || id === null);
-    if (isSuccess && data && (id === 0 || id === null)) {
-      data.slice(0, 5).map((post) => {
-        const { userId, id, title, body } = post;
-        return <PostCard userId={userId} id={id} title={title} body={body} />;
-      });
-    }
     if (i_isSuccess && i_data) {
       return (
         <PostCard
@@ -40,35 +35,31 @@ export default function App() {
         />
       );
     }
+    if (isSuccess && data && (id === 0 || id === null)) {
+      data.slice(0, 5).map((post) => {
+        const { userId, id, title, body } = post;
+        return (<PostCard userId={userId} id={id} title={title} body={body} />);
+      });
+    }
   };
 
   return (
     <div className="App">
-      <TextField
-        id="outlined-basic"
-        label="Enter id here"
-        variant="outlined"
-        value={id}
-        onChange={(e) => handleOnChange(e)}
-      />
-      {/* {i_isSuccess && i_data && (
-        <PostCard
-          userId={i_data!.userId}
-          id={i_data!.id}
-          title={i_data!.title}
-          body={i_data!.body}
-        />
-      )} */}
-      {/* {renderLists()} */}
-
-      {isLoading && <LoadingScreen />}
-      {isError && error}
-      {isSuccess &&
-        data &&
-        data.slice(0, 5).map((post) => {
-          const { userId, id, title, body } = post;
-          return <PostCard userId={userId} id={id} title={title} body={body} />;
-        })}
+      <Header />
+      <Box style={{ marginTop: 100 }}>
+        {/* {isLoading && <LoadingScreen />}
+        {isError && error}
+        {isSuccess &&
+          data &&
+          data.slice(0, 5).map((post) => {
+            const { userId, id, title, body } = post;
+            return <PostCard userId={userId} id={id} title={title} body={body} />;
+          })} */}
+        {renderLists()}
+      </Box>
+      <Fab color="primary" aria-label="add" style={{ float: 'right' }}>
+        <AddIcon />
+      </Fab>
     </div>
   );
 }

@@ -17,7 +17,7 @@ const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
     <Card
       sx={{ minWidth: 275 }}
       style={{
-        width: 250,
+        width: '80%',
         margin: "auto",
         marginBottom: 10,
         backgroundColor: "#F5F5F5"
