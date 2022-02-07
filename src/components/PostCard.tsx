@@ -4,22 +4,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Card from "@mui/material/Card";
 import { CardContent, Typography, CardActions, Button, Fab } from "@mui/material";
-import { useDeletePostMutation, useUpdatePostMutation } from '../services/posts'
 
 interface IPostCard {
   userId: number;
   id: number;
   title: string;
   body: string;
+  handleDelete: (id: number) => Promise<void>;
+  handleUpdate: (id: number) => Promise<void>;
 }
 
 const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
-  const { userId, id, title, body } = props;
-  const [deletePost] = useDeletePostMutation();
-
-  const handleDelete = async (id: number) => {
-    await deletePost(id)
-  };
+  const { userId, id, title, body, handleDelete, handleUpdate } = props;
 
   return (
     <>
@@ -32,7 +28,7 @@ const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
           position: 'relative'
         }}
       >
-        <Fab color="primary" style={{ position: 'absolute', top: -5, right: 35, backgroundColor: '#df860ea8' }} size="small">
+        <Fab color="primary" style={{ position: 'absolute', top: -5, right: 35, backgroundColor: '#df860ea8' }} size="small" onClick={() => handleUpdate(id)}>
           <EditIcon />
         </Fab>
         <Fab color="primary" style={{ position: 'absolute', top: -5, right: -5, backgroundColor: '#df0e0e' }} size="small" onClick={() => handleDelete(id)}>
