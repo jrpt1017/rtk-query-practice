@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Card from "@mui/material/Card";
 import { CardContent, Typography, CardActions, Button, Fab } from "@mui/material";
+import { useDeletePostMutation, useUpdatePostMutation } from '../services/posts'
 
 interface IPostCard {
   userId: number;
@@ -14,6 +15,11 @@ interface IPostCard {
 
 const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
   const { userId, id, title, body } = props;
+  const [deletePost] = useDeletePostMutation();
+
+  const handleDelete = async (id: number) => {
+    await deletePost(id)
+  };
 
   return (
     <>
@@ -29,7 +35,7 @@ const PostCard: React.FC<IPostCard> = (props: IPostCard) => {
         <Fab color="primary" style={{ position: 'absolute', top: -5, right: 35, backgroundColor: '#df860ea8' }} size="small">
           <EditIcon />
         </Fab>
-        <Fab color="primary" style={{ position: 'absolute', top: -5, right: -5, backgroundColor: '#df0e0e' }} size="small">
+        <Fab color="primary" style={{ position: 'absolute', top: -5, right: -5, backgroundColor: '#df0e0e' }} size="small" onClick={() => handleDelete(id)}>
           <DeleteIcon />
         </Fab>
         <CardContent>

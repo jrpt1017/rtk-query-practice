@@ -41,7 +41,7 @@ export default function App() {
             body={i_data!.body}
           />
         ) : (
-          data?.slice(0, 5).map((post, idx) => {
+          data?.slice(0, 50).map((post, idx) => {
             const { userId, id, title, body } = post;
             return (
               <PostCard
@@ -67,7 +67,6 @@ export default function App() {
 
   const handleOnClick = async () => {
     await addPost(post);
-    refetch();
   };
 
   return (
